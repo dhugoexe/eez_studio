@@ -278,6 +278,7 @@ export class Build extends EezObject {
     compressFlowDefinition: boolean;
     executionQueueSize: number;
     expressionEvaluatorStackSize: number;
+    pageIndexOffset: number;
     imageExportMode: "source" | "binary";
     fontExportMode: "source" | "binary";
     fileSystemPath: string;
@@ -398,6 +399,14 @@ export class Build extends EezObject {
                     isNotLVGLProject(object) ||
                     !getProject(object).projectTypeTraits.hasFlowSupport ||
                     !object.generateSourceCodeForEezFramework
+            },
+            {
+                name: "pageIndexOffset",
+                type: PropertyType.Number,
+                disabled: (object: Build) =>
+                    isNotLVGLProject(object) ||
+                    !getProject(object).projectTypeTraits.hasFlowSupport ||
+                    !object.generateSourceCodeForEezFramework
             }
         ],
 
@@ -420,6 +429,9 @@ export class Build extends EezObject {
 
             if (jsObject.expressionEvaluatorStackSize == undefined) {
                 jsObject.expressionEvaluatorStackSize = 20;
+            }
+            if (jsObject.pageIndexOffset == undefined) {
+                jsObject.pageIndexOffset = 0;
             }
 
             if (jsObject.separateFolderForImagesAndFonts == undefined) {
@@ -483,7 +495,8 @@ export class Build extends EezObject {
             generateSourceCodeForEezFramework: observable,
             compressFlowDefinition: observable,
             executionQueueSize: observable,
-            expressionEvaluatorStackSize: observable
+            expressionEvaluatorStackSize: observable,
+            pageIndexOffset: observable
         });
     }
 }
@@ -611,7 +624,7 @@ export const ExtensionDirectiveCustomUI = observer((props: PropertyProps) => {
         <Button
             color="primary"
             size="small"
-            onClick={() => {}}
+            onClick={() => { }}
             style={{ marginTop: 10 }}
         >
             Install

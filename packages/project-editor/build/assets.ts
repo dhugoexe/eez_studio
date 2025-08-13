@@ -981,7 +981,7 @@ export class Assets {
     }
 
     getFlowIndex(flow: Flow) {
-        return this.getFlowState(flow).index;
+        return this.getFlowState(flow).index + this.rootProject.settings.build.pageIndexOffset;
     }
 
     getFlowIndexFromEventHandler(component: Component, eventName: string) {
@@ -1849,14 +1849,13 @@ export async function buildAssets(
 export function buildGuiPagesEnum(assets: Assets) {
     let pages = assets.pages.map(
         (page, i) =>
-            `${TAB}${
-                page
-                    ? getName(
-                          "PAGE_ID_",
-                          page,
-                          NamingConvention.UnderscoreUpperCase
-                      )
-                    : `PAGE_ID_${i}`
+            `${TAB}${page
+                ? getName(
+                    "PAGE_ID_",
+                    page,
+                    NamingConvention.UnderscoreUpperCase
+                )
+                : `PAGE_ID_${i}`
             } = ${i + 1}`
     );
 
@@ -1886,7 +1885,6 @@ function buildGuiAssetsDecl(data: Buffer) {
 }
 
 function buildGuiAssetsDef(data: Buffer) {
-    return `// ASSETS DEFINITION\nconst uint8_t assets[${
-        data.length
-    }] = {${dumpData(data)}};`;
+    return `// ASSETS DEFINITION\nconst uint8_t assets[${data.length
+        }] = {${dumpData(data)}};`;
 }

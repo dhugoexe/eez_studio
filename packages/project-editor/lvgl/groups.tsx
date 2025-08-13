@@ -53,7 +53,7 @@ const DefaultGroupPropertyGridUI = observer(
             } else {
                 if (
                     (this.context.project.lvglGroups as any)[
-                        this.props.propertyInfo.name
+                    this.props.propertyInfo.name
                     ] === this.lvglGroup.name
                 ) {
                     this.context.updateObject(this.context.project.lvglGroups, {
@@ -66,7 +66,7 @@ const DefaultGroupPropertyGridUI = observer(
         render() {
             const state =
                 (this.context.project.lvglGroups as any)[
-                    this.props.propertyInfo.name
+                this.props.propertyInfo.name
                 ] === this.lvglGroup.name;
 
             return (
@@ -193,7 +193,7 @@ export const GroupImplementationInfoPropertyUI = observer(
                         ref={this.codeEditorRef}
                         mode="c_cpp"
                         value={code}
-                        onChange={() => {}}
+                        onChange={() => { }}
                         readOnly={true}
                         className="form-control"
                         minLines={2}
