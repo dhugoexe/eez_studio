@@ -1816,6 +1816,23 @@ export async function buildAssets(
                     await assets.lvglBuild.buildLoadFirstScreen();
             }
 
+            // CUSTOM
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_RAW_SCREENS_OBJ_DECL") !== -1
+            ) {
+                result.LVGL_RAW_SCREENS_OBJ_DECL =
+                    await assets.lvglBuild.buildRawScreenObjDecl();
+            }
+
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_RAW_SCREENS_ENUM_DECL") !== -1
+            ) {
+                result.LVGL_RAW_SCREENS_ENUM_DECL =
+                    await assets.lvglBuild.buildRawScreenEnumDecl();
+            }
+
             if (option == "buildFiles") {
                 await assets.lvglBuild.copyBitmapFiles();
                 await assets.lvglBuild.copyFontFiles();

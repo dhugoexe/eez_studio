@@ -947,6 +947,35 @@ export class LVGLBuild extends Build {
         this.postBuildCallbacks = [];
     }
 
+    //custom_dhugoexe
+    async buildRawScreenObjDecl() {
+        this.startBuild();
+        const build = this;
+        this.lvglObjectIdentifiers.fromPage.identifiers.forEach(
+            (identifier, i, array) => {
+                const comma = i === array.length - 1 ? "" : ",";
+                build.line(`"lv_obj_t *${identifier}"${comma}`);
+            }
+        );
+        return this.result;
+    }
+
+    //custom_dhugoexe
+    async buildRawScreenEnumDecl() {
+        this.startBuild();
+        const build = this;
+        const pages = this.pages.filter(page => !page.isUsedAsUserWidget);
+        for (let i = 0; i < pages.length; i++) {
+            const comma = i === pages.length - 1 ? "" : ",";
+            build.line(
+                `"SCREEN_ID_${this.getScreenIdentifier(
+                    pages[i]
+                ).toUpperCase()} = ${i + this.project.settings.build.pageIndexOffset}"${comma}`
+            );
+        }
+        return this.result;
+    }
+
     async buildScreensDecl() {
         this.startBuild();
         const build = this;
