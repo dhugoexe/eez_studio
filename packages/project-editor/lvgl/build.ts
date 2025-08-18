@@ -948,31 +948,113 @@ export class LVGLBuild extends Build {
     }
 
     //custom_dhugoexe
-    async buildRawScreenObjDecl() {
+    async buildScreensNames() {
+        this.startBuild();
+        const build = this;
+        const pages = this.pages.filter(page => !page.isUsedAsUserWidget);
+        for (let i = 0; i < pages.length; i++) {
+            const comma = i === pages.length - 1 ? "" : ",";
+            build.line(`"${this.getScreenIdentifier(pages[i])}"${comma}`);
+        }
+        return this.result;
+    }
+
+    //custom_dhugoexe
+    async buildObjsNames() {
         this.startBuild();
         const build = this;
         this.lvglObjectIdentifiers.fromPage.identifiers.forEach(
             (identifier, i, array) => {
                 const comma = i === array.length - 1 ? "" : ",";
-                build.line(`"lv_obj_t *${identifier}"${comma}`);
+                build.line(`"${identifier}"${comma}`);
             }
         );
         return this.result;
     }
 
     //custom_dhugoexe
-    async buildRawScreenEnumDecl() {
+    async buildNativeVarsNames() {
         this.startBuild();
         const build = this;
-        const pages = this.pages.filter(page => !page.isUsedAsUserWidget);
-        for (let i = 0; i < pages.length; i++) {
-            const comma = i === pages.length - 1 ? "" : ",";
+        build.line(`"{ NATIVE_VAR_TYPE_NONE, 0, 0 }",`);
+
+        const filteredVariables = this.project.variables.globalVariables.filter(
+            variable =>
+                !this.assets.projectStore.projectTypeTraits.hasFlowSupport ||
+                variable.native
+        );
+
+        filteredVariables.forEach((variable, i, array) => {
+            const comma = i === array.length - 1 ? "" : ",";
             build.line(
-                `"SCREEN_ID_${this.getScreenIdentifier(
-                    pages[i]
-                ).toUpperCase()} = ${i + this.project.settings.build.pageIndexOffset}"${comma}`
+                `"{ NATIVE_VAR_TYPE_${isEnumType(variable.type)
+                    ? "INTEGER"
+                    : variable.type.toUpperCase()
+                }, ${this.getVariableGetterFunctionName(
+                    variable.name
+                )}, ${this.getVariableSetterFunctionName(
+                    variable.name
+                )} }"${comma}`
             );
+        });
+
+        return this.result;
+    }
+
+    //custom_dhugoexe
+    async buildActionsNames() {
+        this.startBuild();
+        const build = this;
+
+        const filteredActions = this.project.actions.filter(
+            action =>
+                !this.assets.projectStore.projectTypeTraits.hasFlowSupport ||
+                action.implementationType === "native"
+        );
+
+        if (filteredActions.length === 0) {
+            build.line("0");
+        } else {
+            filteredActions.forEach((action, i, array) => {
+                const comma = i === array.length - 1 ? "" : ",";
+                build.line(`"${this.getActionFunctionName(action.name)}"${comma}`);
+            });
         }
+
+        return this.result;
+    }
+
+    //custom_dhugoexe
+    async buildAssetsNames() {
+        this.startBuild();
+        const build = this;
+        build.line('"Not implemented yet"');
+        return this.result;
+    }
+
+    //custom_dhugoexe
+    async buildGroupsNames() {
+        this.startBuild();
+        const build = this;
+
+        this.project.lvglGroups.groups.forEach((group, i, array) => {
+            const comma = i === array.length - 1 ? "" : ",";
+            build.line(`"${group.name}"${comma}`);
+        });
+
+        return this.result;
+    }
+
+    //custom_dhugoexe
+    async buildImagesNames() {
+        this.startBuild();
+        const build = this;
+        this.bitmaps.forEach(
+            (bitmap, i, array) => {
+                const comma = i === array.length - 1 ? "" : ",";
+                build.line(`{ "name": "${bitmap.name}", "accessor": "${this.getImageAccessor(bitmap)}" }${comma}`);
+            }
+        );
         return this.result;
     }
 

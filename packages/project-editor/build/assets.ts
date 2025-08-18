@@ -1816,22 +1816,70 @@ export async function buildAssets(
                     await assets.lvglBuild.buildLoadFirstScreen();
             }
 
-            // CUSTOM
+            // Macro pour LVGL_SCREEN_NAMES
             if (
                 !sectionNames ||
-                sectionNames.indexOf("LVGL_RAW_SCREENS_OBJ_DECL") !== -1
+                sectionNames.indexOf("LVGL_SCREENS_NAMES") !== -1
             ) {
-                result.LVGL_RAW_SCREENS_OBJ_DECL =
-                    await assets.lvglBuild.buildRawScreenObjDecl();
+                result.LVGL_SCREENS_NAMES =
+                    await assets.lvglBuild.buildScreensNames();
             }
 
+            // Macro pour LVGL_OBJ_NAMES
             if (
                 !sectionNames ||
-                sectionNames.indexOf("LVGL_RAW_SCREENS_ENUM_DECL") !== -1
+                sectionNames.indexOf("LVGL_OBJS_NAMES") !== -1
             ) {
-                result.LVGL_RAW_SCREENS_ENUM_DECL =
-                    await assets.lvglBuild.buildRawScreenEnumDecl();
+                result.LVGL_OBJS_NAMES =
+                    await assets.lvglBuild.buildObjsNames();
             }
+
+            // Macro pour LVGL_NATIVE_VAR_NAMES
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_NATIVE_VARS_NAMES") !== -1
+            ) {
+                result.LVGL_NATIVE_VARS_NAMES =
+                    await assets.lvglBuild.buildNativeVarsNames();
+            }
+
+            // Macro pour LVGL_ACTIONS_NAMES
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_ACTIONS_NAMES") !== -1
+            ) {
+                result.LVGL_ACTIONS_NAMES =
+                    await assets.lvglBuild.buildActionsNames();
+            }
+
+            // Macro pour LVGL_ASSETS_NAMES
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_ASSETS_NAMES") !== -1
+            ) {
+                result.LVGL_ASSETS_NAMES =
+                    await assets.lvglBuild.buildAssetsNames();
+            }
+
+            // Macro pour LVGL_GROUPS_NAMES
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_GROUPS_NAMES") !== -1
+            ) {
+                result.LVGL_GROUPS_NAMES =
+                    await assets.lvglBuild.buildGroupsNames();
+            }
+
+            // Macro pour LVGL_IMAGE_NAMES
+            if (
+                !sectionNames ||
+                sectionNames.indexOf("LVGL_IMAGES_NAMES") !== -1
+            ) {
+                result.LVGL_IMAGES_NAMES =
+                    await assets.lvglBuild.buildImagesNames();
+            }
+
+
 
             if (option == "buildFiles") {
                 await assets.lvglBuild.copyBitmapFiles();
