@@ -1937,14 +1937,14 @@ extern const ext_img_desc_t images[${this.bitmaps.length || 1}];
 
         for (const font of this.fonts) {
             if (this.project.settings.build.fontExportMode == "binary") {
-                build.line(
-                    `extern lv_font_t *${this.getFontVariableName(font)};`
-                );
+                build.line(`extern lv_font_t *${this.fontNames};`);
             } else {
-                build.line(
-                    `extern const lv_font_t ${this.getFontVariableName(font)};`
-                );
+                build.line(`extern const lv_font_t ui_font_${font.name};`);
             }
+        }
+
+        for (const font of this.fonts) {
+            build.line(`#define ${this.getFontVariableName(font)} ui_font_${font.name}`);
         }
 
         return this.result;
@@ -2027,7 +2027,7 @@ extern const ext_img_desc_t images[${this.bitmaps.length || 1}];
         this.startBuild();
         const build = this;
 
-        for (const variable of this.project.variables.globalVariables) {
+        for (const variable of this.project.allVisibleGlobalVariables) {
             if (
                 !this.assets.projectStore.projectTypeTraits.hasFlowSupport ||
                 variable.native
@@ -2079,7 +2079,7 @@ extern const ext_img_desc_t images[${this.bitmaps.length || 1}];
 
         build.line("{ NATIVE_VAR_TYPE_NONE, 0, 0 },");
 
-        for (const variable of this.project.variables.globalVariables) {
+        for (const variable of this.project.allVisibleGlobalVariables) {
             if (
                 !this.assets.projectStore.projectTypeTraits.hasFlowSupport ||
                 variable.native
