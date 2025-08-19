@@ -611,7 +611,7 @@ export const ExtensionDirectiveCustomUI = observer((props: PropertyProps) => {
         <Button
             color="primary"
             size="small"
-            onClick={() => {}}
+            onClick={() => { }}
             style={{ marginTop: 10 }}
         >
             Install
@@ -1860,7 +1860,7 @@ export class Project extends EezObject {
     }
 
     get allActions() {
-        let allActions = this.actions;
+        let allActions = [...this.actions];
         for (const importDirective of this.settings.general.imports) {
             if (importDirective.project) {
                 allActions.push(...importDirective.project.actions);
