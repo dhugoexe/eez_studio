@@ -336,8 +336,7 @@ const SelectItemDialog = observer(
 
                     if (this.ref.current) {
                         const listItemElement = this.ref.current.querySelector(
-                            `.EezStudio_ExpressionBuilder_CommandsBrowser .EezStudio_List .EezStudio_ListItem:nth-child(${
-                                i + 1
+                            `.EezStudio_ExpressionBuilder_CommandsBrowser .EezStudio_List .EezStudio_ListItem:nth-child(${i + 1
                             })`
                         );
                         if (listItemElement) {
@@ -552,9 +551,9 @@ const SelectItemDialog = observer(
                                     typeof field.valueType == "string"
                                         ? []
                                         : getFields(
-                                              field.valueType,
-                                              `${prefix}.${field.name}`
-                                          ),
+                                            field.valueType,
+                                            `${prefix}.${field.name}`
+                                        ),
                                 selected: selection == data,
                                 expanded: true,
                                 data: data
@@ -761,6 +760,26 @@ const SelectItemDialog = observer(
                         expanded: true,
                         data: globalVariable.fullName
                     })),
+                    selected: false,
+                    expanded: true
+                });
+            }
+            const pages = this.context.project._assets.pages;
+            if (pages.length > 0) {
+                children.push({
+                    id: "pages",
+                    label: "Pages",
+                    children: pages.map(page => {
+                        const data = `"${page.page.name}"`;
+                        return {
+                            id: page.name,
+                            label: page.name,
+                            children: [],
+                            selected: this.selection == data,
+                            expanded: false,
+                            data: data
+                        };
+                    }),
                     selected: false,
                     expanded: true
                 });
@@ -1209,8 +1228,8 @@ const SelectItemDialog = observer(
                                     href="#"
                                     onClick={action(
                                         () =>
-                                            (this.expressionBuilderState.activeTab =
-                                                "scpi")
+                                        (this.expressionBuilderState.activeTab =
+                                            "scpi")
                                     )}
                                 >
                                     SCPI
@@ -1224,8 +1243,8 @@ const SelectItemDialog = observer(
                                     href="#"
                                     onClick={action(
                                         () =>
-                                            (this.expressionBuilderState.activeTab =
-                                                "expression")
+                                        (this.expressionBuilderState.activeTab =
+                                            "expression")
                                     )}
                                 >
                                     Expression
