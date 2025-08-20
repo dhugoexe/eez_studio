@@ -108,6 +108,10 @@ function checkExpressionNode(component: Component, rootNode: ExpressionNode) {
             return;
         }
 
+        if (node.type == "TranslatedTextResource") {
+            return;
+        }
+
         if (node.type == "TextResource") {
             const project = ProjectEditor.getProject(component);
 

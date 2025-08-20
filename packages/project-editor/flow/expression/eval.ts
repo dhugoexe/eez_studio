@@ -181,6 +181,10 @@ function evalConstantExpressionNode(
             throw `Not a constant`;
         }
 
+        if (node.type == "TranslatedTextResource") {
+            return node.value;
+        }
+
         if (node.type == "TextResource") {
             const textResource = project.texts.resources.find(
                 textResource => textResource.resourceID == node.value
@@ -544,7 +548,7 @@ class AssignableValue {
         public valueType: ValueType,
         public name?: any,
         public object?: any
-    ) {}
+    ) { }
 
     isInput() {
         return this.type == "input";

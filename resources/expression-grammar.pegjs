@@ -212,6 +212,11 @@ TextResource
   = 'T' str:StringLiteral {
       return { type: "TextResource", value: str.value, location: location() };
     }
+    
+TranslatedTextResource
+  = 't' str:StringLiteral {
+      return { type: "TranslatedTextResource", value: str.value, location: location() };
+    }
 
 JSONLiteral
   = ("JSON" / "json") "`" chars:((!"`" SourceCharacter)*) "`" {
@@ -445,6 +450,7 @@ EOF
 
 PrimaryExpression
   = TextResource
+  / TranslatedTextResource
   / JSONLiteral
   / TemplateLiteral
   / Identifier

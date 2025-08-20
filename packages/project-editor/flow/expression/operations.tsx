@@ -431,7 +431,7 @@ export const builtInFunctions: {
             return (
                 expressionContext.flowState &&
                 expressionContext.flowState.flow ==
-                    expressionContext.flowState.runtime.selectedPage
+                expressionContext.flowState.runtime.selectedPage
             );
         },
         getValueType: (...args: ValueType[]) => {
@@ -1580,7 +1580,7 @@ const lvglConstants: BuiltInConstantsType = {
 export const builtInConstants: (
     projectStore: ProjectStore
 ) => BuiltInConstantsType = (projectStore: ProjectStore) =>
-    projectStore.projectTypeTraits.isLVGL ? lvglConstants : commonConstants;
+        projectStore.projectTypeTraits.isLVGL ? lvglConstants : commonConstants;
 
 export const operationIndexes: { [key: string]: number } = {};
 

@@ -154,6 +154,13 @@ function buildExpressionNode(
         ];
     }
 
+    if (node.type == "TranslatedTextResource") {
+        return [
+            makePushConstantInstruction(assets, node.value, "string"),
+            makeOperationInstruction(operationIndexes["LVGL.tranlateExpression"])
+        ];
+    }
+
     if (node.type == "TextResource") {
         if (assets.projectStore.project.texts) {
             return [
@@ -400,12 +407,12 @@ function buildExpressionNode(
             ),
             ...(typeof builtInFunction.arity == "object"
                 ? [
-                      makePushConstantInstruction(
-                          assets,
-                          node.arguments.length,
-                          "integer"
-                      )
-                  ]
+                    makePushConstantInstruction(
+                        assets,
+                        node.arguments.length,
+                        "integer"
+                    )
+                ]
                 : []),
             makeOperationInstruction(operationIndexes[functionName])
         ];

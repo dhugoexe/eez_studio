@@ -60,6 +60,8 @@ export function findValueTypeInExpressionNode(
         } else {
             node.valueType = "undefined";
         }
+    } else if (node.type == "TranslatedTextResource") {
+        node.valueType = "string"
     } else if (node.type == "TextResource") {
         node.valueType = "string";
     } else if (node.type == "JSONLiteral") {
@@ -298,9 +300,9 @@ export function findValueTypeInExpressionNode(
                                 } else if (field.type == "array:double") {
                                     if (
                                         property.value.valueType ==
-                                            "array:integer" ||
+                                        "array:integer" ||
                                         property.value.valueType ==
-                                            "array:float"
+                                        "array:float"
                                     ) {
                                         property.value.valueType =
                                             "array:double";
@@ -475,9 +477,8 @@ export function findValueTypeInExpressionNode(
                 assignable
             )
         );
-        node.valueType = `array:${
-            node.elements.length > 0 ? node.elements[0].valueType : "any"
-        }` as ValueType;
+        node.valueType = `array:${node.elements.length > 0 ? node.elements[0].valueType : "any"
+            }` as ValueType;
     } else if (node.type == "ObjectExpression") {
         node.properties.forEach(property =>
             findValueTypeInExpressionNode(
